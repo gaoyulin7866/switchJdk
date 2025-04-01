@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'run.mone'
-version = '2025.04.01.3'
+version = '2025.04.01.9'
 
 repositories {
     mavenCentral()
@@ -41,4 +41,17 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/main/resources'
+            include '**/*.jpeg' // 包含所有 JPEG 文件
+            include '**/*.svg' // 包含所有 SVG 文件
+        }
+    }
+}
+
+tasks.named('processResources') {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

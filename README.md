@@ -27,6 +27,6 @@ This plugin allows you to quickly switch between different JDK versions in Intel
 ### After configuration, you can quickly switch JDK versions using the status bar widget.
 
 ### Illustration
-![SwitchJdk Preview](https://downloads.marketplace.jetbrains.com/files/26964/preview_cd66d166-9fdc-4a3b-8c78-5ca3d2ebbf96)
+![SwitchJdk Preview](./src/main/resources/images/step1.jpeg)
 
-![SwitchJdk Preview](https://downloads.marketplace.jetbrains.com/files/26964/preview_645f8fdb-1015-4004-98cd-730a6ca0f563)
+![SwitchJdk Preview](./src/main/resources/images/step2.jpeg)

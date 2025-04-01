@@ -5,6 +5,7 @@
 
     <description><![CDATA[
 <h3>SwitchJdk - Quick JDK Version Switcher</h3>
+<p>GitHub 地址: <a href="https://github.com/gaoyulin7866/switchJdk">https://github.com/gaoyulin7866/switchJdk</a></p>
 
 <p>This plugin allows you to quickly switch between different JDK versions in IntelliJ IDEA.</p>
 
