@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '1.13.3'
+}
+
+group = 'run.mone'
+version = '2025.04.01.3'
+
+repositories {
+    mavenCentral()
+}
+
+// 设置 Java 兼容性
+sourceCompatibility = 17
+targetCompatibility = 17
+
+// 更新插件配置
+intellij {
+    version = '2023.1.2'  // 更新到更新的版本
+    type = 'IC'
+    downloadSources = true
+    updateSinceUntilBuild = false
+    plugins = ['com.intellij.java', 'JUnit', 'org.jetbrains.plugins.terminal', 'org.jetbrains.idea.maven']
+    sandboxDir = project.rootDir.canonicalPath + "/.sandbox"
+}
+
+// 运行配置
+runIde {
+    // 配置JVM参数
+    jvmArgs = ['-Xmx2048m']
+    autoReloadPlugins = true
+
+    // 添加IDE路径配置
+    ideDir = file('/Applications/IntelliJ IDEA CE.app/Contents')  // Mac路径，根据实际安装位置调整
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

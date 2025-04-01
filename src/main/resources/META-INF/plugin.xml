@@ -1,0 +1,56 @@
+<idea-plugin>
+    <id>run.mone.plugin</id>
+    <name>SwitchJdk</name>
+    <vendor email="gaoyulin456@163.com" url="http://mone.run">mone</vendor>
+
+    <description><![CDATA[
+<h3>SwitchJdk - Quick JDK Version Switcher</h3>
+
+<p>This plugin allows you to quickly switch between different JDK versions in IntelliJ IDEA.</p>
+
+<h4>Configuration Steps:</h4>
+<ol>
+    <li>Go to <b>Settings > Other Settings > Switch Sdk</b></li>
+    <li>Configure your JDK paths in the following format:
+        <pre>jdk17=/path/to/jdk17/home
+jdk21=/path/to/jdk21/home
+jdk11=/path/to/jdk11/home
+jdk8=/path/to/jdk8/home
+jdk19=/path/to/jdk19/home</pre>
+    </li>
+    <li>Restart idea</li>
+</ol>
+
+<h4>Example Configuration:</h4>
+<pre>jdk17=/Library/Java/JavaVirtualMachines/jdk-17.0.3.1.jdk/Contents/Home
+jdk21=/Library/Java/JavaVirtualMachines/jdk-21.0.2.jdk/Contents/Home
+jdk11=/Library/Java/JavaVirtualMachines/jdk-11.0.24.jdk/Contents/Home
+jdk8=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home
+jdk19=/Library/Java/JavaVirtualMachines/jdk-19.0.2.jdk/Contents/Home</pre>
+
+<p>After configuration, you can quickly switch JDK versions using the status bar widget.</p>
+]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+    <depends>JUnit</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
+    <depends>com.intellij.modules.vcs</depends>
+    <depends>org.jetbrains.idea.maven</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="run.mone.config.SwitchJdkConfig"/>
+        <applicationConfigurable instance="run.mone.config.SwitchJdkConfigurable"/>
+        <statusBarWidgetFactory 
+            implementation="run.mone.factory.JdkSwitcherWidgetFactory"
+            id="JdkSwitcher"
+            order="first"/>
+    </extensions>
+
+    <actions>
+        <!-- 在这里添加动作 -->
+    </actions>
+
+    <!-- 添加插件兼容性信息 -->
+    <idea-version since-build="231" until-build="233.*"/>
+</idea-plugin>
