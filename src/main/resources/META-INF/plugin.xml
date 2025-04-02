@@ -53,5 +53,5 @@ jdk19=/Library/Java/JavaVirtualMachines/jdk-19.0.2.jdk/Contents/Home</pre>
     </actions>
 
     <!-- 添加插件兼容性信息 -->
-    <idea-version since-build="231" until-build="233.*"/>
+    <idea-version since-build="231" until-build="251.*"/>
 </idea-plugin>
