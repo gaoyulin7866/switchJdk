@@ -22,9 +22,15 @@ import org.jetbrains.idea.maven.project.MavenProjectsManager;
 import org.jetbrains.idea.maven.project.MavenImportingSettings;
 import run.mone.config.SwitchJdkConfig;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Map;
 
 public class JdkSwitcherPopup {
+    private static final String BASH_PROFILE_PATH = System.getProperty("user.home") + "/.bash_profile";
     private final Project project;
     private final Map<String, String> jdkPaths;
 
@@ -66,6 +72,73 @@ public class JdkSwitcherPopup {
                         JBPopupFactory.ActionSelectionAid.SPEEDSEARCH,
                         true
                 );
+    }
+
+    private static String updateJavaHome(String content, String newJavaHome) {
+        String[] lines = content.split("\n");
+        StringBuilder result = new StringBuilder();
+
+        for (String line : lines) {
+            if (line.trim().startsWith("export JAVA_HOME=") && !line.trim().startsWith("#")) {
+                result.append("export JAVA_HOME=").append(newJavaHome).append("\n");
+            } else {
+                result.append(line).append("\n");
+            }
+        }
+
+        return result.toString();
+    }
+
+    private static void executeSourceCommand() {
+        try {
+            // 创建一个临时脚本文件
+            String tempScript = System.getProperty("user.home") + "/temp_source.sh";
+            Path path = Paths.get(tempScript);
+            Files.write(path,
+                    ("source ~/.bash_profile\n" +
+                            "java -version\n").getBytes(),  // 添加显示java版本的命令
+                    StandardOpenOption.CREATE);
+
+            // 设置脚本文件权限
+            new File(tempScript).setExecutable(true);
+
+            // 使用osascript执行终端命令
+            String[] command = {
+                    "osascript",
+                    "-e",
+                    "tell application \"Terminal\"",
+                    "-e",
+                    "do script \"" + tempScript + " && exit\"",
+                    "-e",
+                    "end tell"
+            };
+
+            Process process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+
+            // 删除临时脚本文件
+            Files.delete(path);
+
+        } catch (Exception e) {
+            System.out.println("执行source命令时发生错误: " + e.getMessage());
+            System.out.println("请手动运行 'source ~/.bash_profile' 使更改生效");
+        }
+    }
+
+    private static void switchMacJava (String selectedJavaHome) {
+        try {
+            // 读取并更新.bash_profile文件
+            Path path = Paths.get(BASH_PROFILE_PATH);
+            String content = new String(Files.readAllBytes(path));
+            String updatedContent = updateJavaHome(content, selectedJavaHome);
+
+            // 写回文件
+            Files.write(path, updatedContent.getBytes());
+
+            executeSourceCommand();
+        } catch (Exception e) {
+//
+        }
     }
 
     private class SwitchJdkAction extends AnAction {
@@ -111,7 +184,7 @@ public class JdkSwitcherPopup {
                     MavenRunner mavenRunner = MavenRunner.getInstance(project);
                     MavenRunnerSettings runnerSettings = mavenRunner.getState();
                     runnerSettings.setJreName(ExternalSystemJdkUtil.USE_PROJECT_JDK);
-
+                    switchMacJava(jdkPath);
                     // 更新状态栏
                     ApplicationManager.getApplication().invokeLater(() -> {
                         StatusBar statusBar = WindowManager.getInstance().getStatusBar(project);
