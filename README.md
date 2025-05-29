@@ -30,3 +30,9 @@ This plugin allows you to quickly switch between different JDK versions in Intel
 ![SwitchJdk Preview](./src/main/resources/images/step1.jpeg)
 
 ![SwitchJdk Preview](./src/main/resources/images/step2.jpeg)
+
+### Change Log
+
+```markdown
+1.2025-29-05 Added the optional function to change the Java version of the mac system, which is not selected by default.
+```

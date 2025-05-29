@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'run.mone'
-version = '2025.05.29.3'
+version = '2025.05.29.5'
 
 repositories {
     mavenCentral()

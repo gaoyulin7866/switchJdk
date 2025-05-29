@@ -31,25 +31,14 @@ public class SwitchJdkConfigurable implements Configurable {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         // 添加提示标签
-        JLabel label = new JLabel("设置成功后需重启IDEA");
+        JLabel label = new JLabel("提示：设置成功后需重启IDEA");
         label.setBorder(new EmptyBorder(0, 0, 24, 0));
         label.setForeground(new Color(255, 165, 0));
         panel.add(label);
 
-        // 添加Jdk Path标签
-        JLabel jdkPathLabel = new JLabel("Jdk Path:");
-        jdkPathLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panel.add(jdkPathLabel);
-
-        jdkPathsArea = new JTextArea(6, 20);
-        jdkPathsArea.setAlignmentX(Component.LEFT_ALIGNMENT);
-        jdkPathsArea.setBorder(new EmptyBorder(0, 10, 0, 0));
-        panel.add(new JScrollPane(jdkPathsArea));
-
         // 添加复选框
         switchSystemJavaCheckBox = new JCheckBox("同时切换系统java版本", false);
         switchSystemJavaCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        switchSystemJavaCheckBox.setBorder(new EmptyBorder(20, 0, 0, 0));
         switchSystemJavaCheckBox.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -59,17 +48,28 @@ public class SwitchJdkConfigurable implements Configurable {
         panel.add(switchSystemJavaCheckBox);
 
         // 在复选框下方添加提示信息
-        JLabel infoLabel = new JLabel("<html>1. java环境变量配置必须在~/.bash_profile中。<br>" +
-                                      "2. java环境变量格式必须为：<br>" +
-                                      "   export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-21.0.2.jdk/Contents/Home<br>" +
-                                      "   export PATH=$JAVA_HOME/bin:$PATH<br>" +
-                                      "3. 勾选并切换jdk版本时会运行命令行工具，执行source ~/.bash_profile，以便java版本生效。<br>" +
-                                      "4. 如以上有一个条件不满足，建议不要勾选此配置。</html>");
-        infoLabel.setBorder(new EmptyBorder(4, 0, 0, 0)); // 添加一些上边距
+        JLabel infoLabel = new JLabel("<html>1.目前只支持mac系统电脑。<br> " +
+                "2. java环境变量配置必须在~/.bash_profile中。<br>" +
+                "3. java环境变量格式必须为：<br>" +
+                "&emsp;export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-21.0.2.jdk/Contents/Home<br>" +
+                "&emsp;export PATH=$JAVA_HOME/bin:$PATH<br>" +
+                "4. 勾选并切换jdk版本时会运行命令行工具，执行source ~/.bash_profile，以便java版本生效。<br>" +
+                "5. 如以上有一个条件不满足，建议不要勾选此配置。</html>");
+        infoLabel.setBorder(new EmptyBorder(4, 0, 24, 0)); // 添加一些上边距
         infoLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         infoLabel.setForeground(new Color(159, 159, 159));
         infoLabel.setFont(new Font(infoLabel.getFont().getName(), Font.PLAIN, 12)); // 设置字体大小为12px
         panel.add(infoLabel);
+
+        // 添加Jdk Path标签
+        JLabel jdkPathLabel = new JLabel("Jdk Paths:");
+        jdkPathLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(jdkPathLabel);
+
+        jdkPathsArea = new JTextArea(6, 20);
+        jdkPathsArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+        jdkPathsArea.setBorder(new EmptyBorder(0, 10, 0, 0));
+        panel.add(new JScrollPane(jdkPathsArea));
 
         return panel;
     }
