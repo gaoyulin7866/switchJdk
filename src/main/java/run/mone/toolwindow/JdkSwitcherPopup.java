@@ -21,6 +21,7 @@ import org.jetbrains.idea.maven.execution.MavenRunnerSettings;
 import org.jetbrains.idea.maven.project.MavenProjectsManager;
 import org.jetbrains.idea.maven.project.MavenImportingSettings;
 import run.mone.config.SwitchJdkConfig;
+import run.mone.config.SwitchJdkConfigurable;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -184,7 +185,12 @@ public class JdkSwitcherPopup {
                     MavenRunner mavenRunner = MavenRunner.getInstance(project);
                     MavenRunnerSettings runnerSettings = mavenRunner.getState();
                     runnerSettings.setJreName(ExternalSystemJdkUtil.USE_PROJECT_JDK);
-                    switchMacJava(jdkPath);
+
+                    // 根据 switchSystemJava 判断是否执行 switchMacJava
+                    if (SwitchJdkConfig.getInstance().switchSystemJava) {
+                        switchMacJava(jdkPath);
+                    }
+
                     // 更新状态栏
                     ApplicationManager.getApplication().invokeLater(() -> {
                         StatusBar statusBar = WindowManager.getInstance().getStatusBar(project);

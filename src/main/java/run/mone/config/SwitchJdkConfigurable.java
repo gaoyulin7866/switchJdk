@@ -9,10 +9,14 @@ import java.awt.*;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class SwitchJdkConfigurable implements Configurable {
     private JPanel panel;
     private JTextArea jdkPathsArea;
+    private JCheckBox switchSystemJavaCheckBox;
+    private boolean switchSystemJava = false;
 
     @Nls
     @Override
@@ -27,6 +31,16 @@ public class SwitchJdkConfigurable implements Configurable {
 
         // 添加提示标签
         JLabel label = new JLabel("设置成功后需重启IDEA");
+        // 添加复选框
+        switchSystemJavaCheckBox = new JCheckBox("同时切换系统java版本", false);
+        switchSystemJavaCheckBox.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                switchSystemJava = switchSystemJavaCheckBox.isSelected();
+            }
+        });
+        panel.add(switchSystemJavaCheckBox, BorderLayout.SOUTH);
+        
         label.setBorder(new EmptyBorder(0, 0, 24, 0));
         label.setForeground(new Color(255, 165, 0));
         panel.add(label, BorderLayout.NORTH);
@@ -41,13 +55,16 @@ public class SwitchJdkConfigurable implements Configurable {
     public boolean isModified() {
         SwitchJdkConfig config = SwitchJdkConfig.getInstance();
         Map<String, String> currentPaths = parseTextArea();
-        return !config.jdkPaths.equals(currentPaths);
+        boolean pathsModified = !config.jdkPaths.equals(currentPaths);
+        boolean switchModified = config.switchSystemJava != switchSystemJava;
+        return pathsModified || switchModified;
     }
 
     @Override
     public void apply() {
         SwitchJdkConfig config = SwitchJdkConfig.getInstance();
         config.jdkPaths = parseTextArea();
+        config.switchSystemJava = switchSystemJava;
     }
 
     @Override
@@ -56,6 +73,7 @@ public class SwitchJdkConfigurable implements Configurable {
         jdkPathsArea.setText(config.jdkPaths.entrySet().stream()
                 .map(entry -> entry.getKey() + "=" + entry.getValue())
                 .collect(Collectors.joining("\n")));
+        switchSystemJavaCheckBox.setSelected(config.switchSystemJava);
     }
 
     private Map<String, String> parseTextArea() {

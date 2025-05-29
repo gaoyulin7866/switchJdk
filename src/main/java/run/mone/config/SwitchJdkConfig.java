@@ -13,6 +13,7 @@ import java.util.Map;
 @State(name = "SwitchJdkConfig", storages = @Storage("switchJdkConfig.xml"))
 public class SwitchJdkConfig implements PersistentStateComponent<SwitchJdkConfig> {
     public Map<String, String> jdkPaths = new HashMap<>();
+    public boolean switchSystemJava = false;
 
     @Nullable
     @Override
@@ -23,6 +24,7 @@ public class SwitchJdkConfig implements PersistentStateComponent<SwitchJdkConfig
     @Override
     public void loadState(@NotNull SwitchJdkConfig state) {
         this.jdkPaths = state.jdkPaths;
+        this.switchSystemJava = state.switchSystemJava;
     }
 
     public static SwitchJdkConfig getInstance() {
