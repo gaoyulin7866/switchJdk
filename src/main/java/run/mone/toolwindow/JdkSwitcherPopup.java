@@ -1,6 +1,8 @@
 package run.mone.toolwindow;
 
 import com.intellij.ide.DataManager;
+import com.intellij.notification.NotificationGroupManager;
+import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.WriteAction;
@@ -90,7 +92,7 @@ public class JdkSwitcherPopup {
         return result.toString();
     }
 
-    private static void executeSourceCommand() {
+    private static void executeSourceCommand(Project project) {
         try {
             // 创建一个临时脚本文件
             String tempScript = System.getProperty("user.home") + "/temp_source.sh";
@@ -121,12 +123,17 @@ public class JdkSwitcherPopup {
             Files.delete(path);
 
         } catch (Exception e) {
-            System.out.println("执行source命令时发生错误: " + e.getMessage());
-            System.out.println("请手动运行 'source ~/.bash_profile' 使更改生效");
+            String errorMessage = "执行source命令时发生错误: " + e.getMessage() + "\n请手动运行 'source ~/.bash_profile' 使更改生效";
+
+            // 使用通知系统显示错误消息
+            NotificationGroupManager.getInstance()
+                    .getNotificationGroup("Mione Notifications")
+                    .createNotification(errorMessage, NotificationType.ERROR)
+                    .notify(project);
         }
     }
 
-    private static void switchMacJava (String selectedJavaHome) {
+    private static void switchMacJava (String selectedJavaHome, Project project) {
         try {
             // 读取并更新.bash_profile文件
             Path path = Paths.get(BASH_PROFILE_PATH);
@@ -136,7 +143,7 @@ public class JdkSwitcherPopup {
             // 写回文件
             Files.write(path, updatedContent.getBytes());
 
-            executeSourceCommand();
+            executeSourceCommand(project);
         } catch (Exception e) {
 //
         }
@@ -188,7 +195,7 @@ public class JdkSwitcherPopup {
 
                     // 根据 switchSystemJava 判断是否执行 switchMacJava
                     if (SwitchJdkConfig.getInstance().switchSystemJava) {
-                        switchMacJava(jdkPath);
+                        switchMacJava(jdkPath, project);
                     }
 
                     // 更新状态栏
