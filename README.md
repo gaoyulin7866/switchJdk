@@ -31,6 +31,9 @@ This plugin allows you to quickly switch between different JDK versions in Intel
 
 ![SwitchJdk Preview](./src/main/resources/images/step2.jpeg)
 
+### Donate
+![SwitchJdk Preview](./src/main/resources/images/pay.jpeg)
+
 ### Change Log
 
 ```markdown
