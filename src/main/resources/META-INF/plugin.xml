@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>run.mone.plugin</id>
     <name>SwitchJdk</name>
-    <vendor email="gaoyulin456@163.com" url="http://mone.run">mone</vendor>
+    <vendor email="gaoyulin456@163.com" url="http://mone.run">gaoyulin</vendor>
 
     <description><![CDATA[
 <h3>SwitchJdk - Quick JDK Version Switcher</h3>
