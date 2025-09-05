@@ -30,6 +30,9 @@ jdk11=/Library/Java/JavaVirtualMachines/jdk-11.0.24.jdk/Contents/Home
 jdk19=/Library/Java/JavaVirtualMachines/jdk-19.0.2.jdk/Contents/Home</pre>
 
 <p>After configuration, you can quickly switch JDK versions using the status bar widget.</p>
+<h4>支持作者:</h4>
+<p>如果您觉得这个插件有用，可以考虑支持作者:</p>
+<img src="https://raw.githubusercontent.com/gaoyulin7866/switchJdk/main/src/main/resources/images/pay.jpeg" alt="支持作者" width="200" />
 ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
